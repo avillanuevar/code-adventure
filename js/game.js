@@ -184,7 +184,7 @@ const game = {
         this.enemies.push(new Enemies(7,7,0,225, 325,"pigy", this.ctx, `bearent.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 301, 449, 8, 300, 30, 20, 2))
         this.enemies.push(new Enemies(7,7,0,225, 325,"specter", this.ctx, `specter.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 43, 317, 26, 400, 50, 20, 2))
         this.enemies.push(new Enemies(7,7,0,225, 325,"rock", this.ctx, `elemental2.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 331, 317, 12, 400, 50, 20, 2))
-        this.enemies.push(new Enemies(2,1,0,300, 325,"boss", this.ctx, `reinbow-dragon.png`, 3, 4, 0, 0, this.canvasDom.width, this.canvasDom.height, 150, 200, 600, 115, 16, 200, 50, 20, 0.75))
+        this.enemies.push(new Enemies(2,1,0,300, 325,"boss", this.ctx, `reinbow-dragon.png`, 3, 4, 0, 0, this.canvasDom.width, this.canvasDom.height, 150, 200, 600, 115, 16, 1000, 100, 20, 0.75))
         // this.enemies.push(new Enemies("wereWolf", this.ctx, `werewolf.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 511, 560, 8, 200, 50, 20, 2))
         this.GameOver = new Map(this.ctx, "gameOver.jpg", this.canvasDom.width, this.canvasDom.height)
     },
