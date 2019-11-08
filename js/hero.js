@@ -23,7 +23,7 @@ class Hero {
         this._posXB = 225
         this._posYB = 375
         this._posXB0 = 225
-        this._posYB0= 375
+        this._posYB0 = 375
         this._battleW = 250
         this._battleH = 400
         this._image.framesX = 12;
@@ -34,7 +34,7 @@ class Hero {
         this._vel = 6
         this.setListeners();
     }
-
+    //dibuja la posicion del heroe en el campo de batalla
     draw() {
 
         let cutXS = this._framesIndexX * Math.floor(this._image.width / this._image.framesX);
@@ -45,30 +45,29 @@ class Hero {
         this._ctx.drawImage(
             this._image,
             cutXS, cutYS, cutXF, cutYF,
-
             this._posX,
             this._posY,
             this._heroW, this._heroH
         );
 
     }
+    //dibuja la posicion del heroe en el campo de batalla
     drawB() {
 
         let cutXS = 4 * Math.floor(this._image.width / this._image.framesX);
         let cutXF = Math.floor(this._image.width / this._image.framesX);
         let cutYS = 3 * Math.floor(this._image.height / this._image.framesY);
         let cutYF = Math.floor(this._image.height / this._image.framesY);
-        //console.log(cutXS, cutXF, cutYS, cutYF, this._heroW, this._heroH)
         this._ctx.drawImage(
             this._image,
             cutXS, cutYS, cutXF, cutYF,
-
             this._posXB,
             this._posYB,
             this._battleW, this._battleH
         );
 
     }
+    //set listener para controlar al heroe con las flechas 
     setListeners() {
         document.onkeydown = e => {
             if (game.framesCounter % 1000) {
@@ -78,35 +77,31 @@ class Hero {
 
                         this._framesIndexX++;
 
-                        if (this._framesIndexX > 5) this._framesIndexX = 3;
-                        if (this._posY < this._height - this._heroH && !game.isCollision(0, this._vel)) this.goDown();
-                        console.log(this._posX, this._posY)
+                        this._framesIndexX > 5 ? this._framesIndexX = 3 : null
+                        this._posY < this._height - this._heroH && !game.isCollision(0, this._vel) ? this.goDown() : null
                         break;
 
                     case this._keys.LEFT:
                         this._framesIndexY = 1;
                         this._framesIndexX++;
-                        if (this._framesIndexX > 5) this._framesIndexX = 3;
+                        this._framesIndexX > 5 ? this._framesIndexX = 3 : null
 
-                        if (this._posX > 0 && !game.isCollision(this._vel * -1, 0)) this.goLeft();
-                        console.log(this._posX, this._posY)
+                        this._posX > 0 && !game.isCollision(this._vel * -1, 0) ? this.goLeft() : null
                         break;
 
                     case this._keys.RIGTH:
                         this._framesIndexY = 2;
                         this._framesIndexX++;
-                        if (this._framesIndexX > 5) this._framesIndexX = 3;
-                        if (this._posX < this._width - this._heroW && !game.isCollision(this._vel, 0)) this.goRigth();
-                        console.log(this._posX, this._posY)
+                        this._framesIndexX > 5 ? this._framesIndexX = 3 : null
+                        this._posX < this._width - this._heroW && !game.isCollision(this._vel, 0) ? this.goRigth() : null
                         break;
 
                     case this._keys.UP:
                         this._framesIndexY = 3;
                         this._framesIndexX++;
                         console.log(!game.isCollision(0, this._vel * -1))
-                        if (this._framesIndexX > 5) this._framesIndexX = 3;
-                        if (this._posY > 0 && !game.isCollision(0, this._vel * -1)) this.goUp();
-                        console.log(this._posX, this._posY)
+                        this._framesIndexX > 5 ? this._framesIndexX = 3 : null
+                        this._posY > 0 && !game.isCollision(0, this._vel * -1) ? this.goUp() : null
                         break;
                 }
             }
@@ -124,7 +119,7 @@ class Hero {
     goDown() {
         this._posY += this._vel;
     }
-    
+
     damageRecived(enemyAttack) {
         this._currentLife -= enemyAttack - this._defense;
         return this._currentLife
@@ -133,5 +128,5 @@ class Hero {
         this._currentLife += 100
 
     }
-    
+
 }

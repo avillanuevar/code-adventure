@@ -139,8 +139,6 @@ const game = {
         this.canvasDom.width = this.width;
         this.canvasDom.height = this.height;
         this.start();
-        // this.reset()
-        //this.drawAll()
     },
 
     start() {
@@ -148,10 +146,8 @@ const game = {
         this.interval = setInterval(() => {
             this.framesCounter++
             if (this.framesCounter > 2000) this.framesCounter = 0;
-            if (this.foundenemy) {
+            this.foundenemy ? this.battle() : null
 
-                this.battle()
-            }
             if (!this.battleB) {
                 this.stopMusicB()
                 this.playLoop()
@@ -165,9 +161,6 @@ const game = {
                 this.clear();
                 this.drawBattle()
             }
-
-
-
         }, 1000 / this.fps);
     },
     reset() {
@@ -178,13 +171,13 @@ const game = {
         this.statusMana = Status;
         this.statusMana.init(this.ctx);
         this.lightning = new Lightning(this.ctx)
-        this.enemies.push(new Enemies(7,7,0,225, 325,"chickgon", this.ctx, `chickgon.png`, 12, 8, 7, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 1160, 340, 22, 150, 40, 20, 3, 1))
-        this.enemies.push(new Enemies(7,7,0,225, 325,"wereWolf", this.ctx, `werewolf.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 511, 560, 8, 200, 30, 20, 2))
-        this.enemies.push(new Enemies(7,7,0,225, 325,"slug", this.ctx, `slime.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 763, 407, 12, 150, 35, 30, 3))
-        this.enemies.push(new Enemies(7,7,0,225, 325,"pigy", this.ctx, `bearent.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 301, 449, 8, 300, 30, 20, 2))
-        this.enemies.push(new Enemies(7,7,0,225, 325,"specter", this.ctx, `specter.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 43, 317, 26, 400, 50, 20, 2))
-        this.enemies.push(new Enemies(7,7,0,225, 325,"rock", this.ctx, `elemental2.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 331, 317, 12, 400, 50, 20, 2))
-        this.enemies.push(new Enemies(2,1,0,300, 325,"boss", this.ctx, `reinbow-dragon.png`, 3, 4, 0, 0, this.canvasDom.width, this.canvasDom.height, 150, 200, 600, 115, 16, 1000, 100, 10, 0.50))
+        this.enemies.push(new Enemies(7, 7, 0, 225, 325, "chickgon", this.ctx, `chickgon.png`, 12, 8, 7, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 1160, 340, 22, 150, 40, 20, 3, 1))
+        this.enemies.push(new Enemies(7, 7, 0, 225, 325, "wereWolf", this.ctx, `werewolf.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 511, 560, 8, 200, 30, 20, 2))
+        this.enemies.push(new Enemies(7, 7, 0, 225, 325, "slug", this.ctx, `slime.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 763, 407, 12, 150, 35, 30, 3))
+        this.enemies.push(new Enemies(7, 7, 0, 225, 325, "pigy", this.ctx, `bearent.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 301, 449, 8, 300, 30, 20, 2))
+        this.enemies.push(new Enemies(7, 7, 0, 225, 325, "specter", this.ctx, `specter.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 43, 317, 26, 400, 50, 20, 2))
+        this.enemies.push(new Enemies(7, 7, 0, 225, 325, "rock", this.ctx, `elemental2.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 331, 317, 12, 400, 50, 20, 2))
+        this.enemies.push(new Enemies(2, 1, 0, 300, 325, "boss", this.ctx, `reinbow-dragon.png`, 3, 4, 0, 0, this.canvasDom.width, this.canvasDom.height, 150, 200, 600, 115, 16, 1000, 100, 10, 0.50))
         // this.enemies.push(new Enemies("wereWolf", this.ctx, `werewolf.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 511, 560, 8, 200, 50, 20, 2))
         this.GameOver = new Map(this.ctx, "gameOver.jpg", this.canvasDom.width, this.canvasDom.height)
     },
@@ -195,9 +188,6 @@ const game = {
             elm.draw()
         })
         this.drawHStatus()
-
-
-
     },
     drawBattle() {
         this.battlaBackground.draw();
@@ -209,9 +199,7 @@ const game = {
 
     },
     moveAll() {
-        this.enemies.forEach(elm => {
-            elm.verticalMove(this.framesCounter);
-        })
+        this.enemies.forEach(elm => elm.verticalMove(this.framesCounter))
     },
     isCollision(newPosX, newPosY) {
         let posX = this.hero._posX + newPosX;
@@ -273,29 +261,25 @@ const game = {
         let count = 0
         if (this.framesCounter % 100 == 0) {
             count++
-             this.hero._posYB = this.hero._posYB0
-             this.hero._posXB = this.hero._posXB0
+            this.hero._posYB = this.hero._posYB0
+            this.hero._posXB = this.hero._posXB0
             this.foundenemy._attackSpeed += this.foundenemy._attackSpeed;
 
             console.log(this.foundenemy._attackSpeed)
-           
+
             if (this.foundenemy._attackSpeed > 10) {
                 this.foundenemy._attackSpeed = this.foundenemy._attackSpeed0;
 
-                this.foundenemy._posYB = this.foundenemy._posYB0
-                this.foundenemy._posXB = this.foundenemy._posXB0
+                this.foundenemy._posYB = this.foundenemy._posYB0;
+                this.foundenemy._posXB = this.foundenemy._posXB0;
 
 
                 this.hero.damageRecived(this.foundenemy._attack);
-                console.log("my life:" + this.hero.damageRecived(this.foundenemy._attack));
             } else {
                 this.foundenemy._posXB -= 500
                 this.foundenemy._posYB += 300
             }
-
-            console.log("mana" + this.hero._mana)
-            console.log(this.foundenemy._currentLife)
-            if (this.hero._mana <= this.hero._maxMana) this.hero._mana += this.hero._attackSpeed;
+            this.hero._mana <= this.hero._maxMana ? this.hero._mana += this.hero._attackSpeed : null
 
             console.log(this.hero._mana)
 
@@ -306,22 +290,13 @@ const game = {
         }
         if (this.foundenemy._currentLife <= 0) {
             this.enemies.forEach((elm, index) => {
-                if (elm._name == this.foundenemy._name) {
-                    this.enemies.splice(index, 1)
-                }
-                 this.hero._posYB = this.hero._posYB0
-                 this.hero._posXB = this.hero._posXB0
+                elm._name == this.foundenemy._name ? this.enemies.splice(index, 1) : null
+                this.hero._posYB = this.hero._posYB0
+                this.hero._posXB = this.hero._posXB0
             })
             this.battleB = false
         }
-        if (this.hero._currentLife <= 0) {
-            this.gameOver()
-
-        }
-
-
-
-
+        this.hero._currentLife <= 0 ? this.gameOver() : null
     },
     setListeners() {
 
@@ -340,9 +315,7 @@ const game = {
                         if (this.hero._currentLife <= this.hero._maxLife) {
                             this.hero.heal();
                             this.hero._mana -= 10
-                            if (this.hero._currentLife >= this.hero._maxLife) {
-                                his.hero._currentLife = this.hero._maxLife
-                            }
+                            this.hero._currentLife >= this.hero._maxLife ? this.hero._currentLife = this.hero._maxLife : null
                         }
                     }
                     break;
@@ -366,7 +339,7 @@ const game = {
         this.GameOver.draw()
         clearInterval(this.interval)
         clearInterval(this.interval)
-       
+
         this.stopMusicB()
         gameOverMusic = document.createElement("audio")
         gameOverMusic.src = "./music/intro.mp3"
