@@ -107,6 +107,7 @@ class Hero {
             }
         }
     }
+    //funciones para moverse en distintas dircciones
     goLeft() {
         this._posX -= this._vel;
     }
@@ -119,11 +120,12 @@ class Hero {
     goDown() {
         this._posY += this._vel;
     }
-
+    //funcion para recibir daño
     damageRecived(enemyAttack) {
         this._currentLife -= enemyAttack - this._defense;
         return this._currentLife
     }
+    //funcion para curarte a ti mismo
     heal() {
         this._currentLife += 100
 

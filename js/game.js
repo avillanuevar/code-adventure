@@ -1,3 +1,4 @@
+//objeto donde todos los elementos del juego se unen todos los elementos del juego
 const game = {
     title: 'Code Adventure',
     author: 'Alfonso Villanueva',
@@ -21,13 +22,14 @@ const game = {
     characterH: 45,
     map: undefined,
     obstacles: undefined,
-    lightning: undefined,
     maps: ["mapa1.png"],
     interval: undefined,
     fps: 60,
+    //musica del jueg
     walkingMusic: new Audio("./music/move.mp3"),
     attackMusic: new Audio("./music/fight.mp3"),
     backMusic: new Audio("./music/intro.mp3"),
+    //llaves a utilizar
     keys: {
         LEFT: 37,
         UP: 38,
@@ -38,6 +40,7 @@ const game = {
         HEAL: 68
 
     },
+    //posicion de los muros para las colisiones
     colmap1: [{
             posX: 0,
             posY: 550,
@@ -131,6 +134,7 @@ const game = {
 
     ],
     framesCounter: 0,
+    //inicio del juego
     init() {
         this.canvasDom = document.getElementById("myCanvas");
         this.ctx = this.canvasDom.getContext("2d");
@@ -145,9 +149,9 @@ const game = {
         this.reset();
         this.interval = setInterval(() => {
             this.framesCounter++
-            if (this.framesCounter > 2000) this.framesCounter = 0;
+            this.framesCounter > 2000 ? this.framesCounter = 0 : null; //bucle para imprimir las imagenes
             this.foundenemy ? this.battle() : null
-
+            //imprimir el mapa
             if (!this.battleB) {
                 this.stopMusicB()
                 this.playLoop()
@@ -155,7 +159,9 @@ const game = {
                 this.drawAll();
                 this.moveAll();
                 this.isCollisionEnemy();
-            } else {
+            }
+            //imprimir el mapa de batalla
+            else {
                 this.stopMusic()
                 this.playLoopB()
                 this.clear();
@@ -163,6 +169,7 @@ const game = {
             }
         }, 1000 / this.fps);
     },
+    //funcion para que todo inicie en su posicion
     reset() {
         this.hero = new Hero(this.ctx, `special-armor.png`, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 500, 120, 20, 3, this.keys);
         this.map = new Map(this.ctx, this.maps[0], this.canvasDom.width, this.canvasDom.height);
@@ -170,7 +177,6 @@ const game = {
         this.statusHP.init(this.ctx);
         this.statusMana = Status;
         this.statusMana.init(this.ctx);
-        this.lightning = new Lightning(this.ctx)
         this.enemies.push(new Enemies(7, 7, 0, 225, 325, "chickgon", this.ctx, `chickgon.png`, 12, 8, 7, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 1160, 340, 22, 150, 40, 20, 3, 1))
         this.enemies.push(new Enemies(7, 7, 0, 225, 325, "wereWolf", this.ctx, `werewolf.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 511, 560, 8, 200, 30, 20, 2))
         this.enemies.push(new Enemies(7, 7, 0, 225, 325, "slug", this.ctx, `slime.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 763, 407, 12, 150, 35, 30, 3))
@@ -178,9 +184,9 @@ const game = {
         this.enemies.push(new Enemies(7, 7, 0, 225, 325, "specter", this.ctx, `specter.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 43, 317, 26, 400, 50, 20, 2))
         this.enemies.push(new Enemies(7, 7, 0, 225, 325, "rock", this.ctx, `elemental2.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 331, 317, 12, 400, 50, 20, 2))
         this.enemies.push(new Enemies(2, 1, 0, 300, 325, "boss", this.ctx, `reinbow-dragon.png`, 3, 4, 0, 0, this.canvasDom.width, this.canvasDom.height, 150, 200, 600, 115, 16, 1000, 100, 10, 0.50))
-        // this.enemies.push(new Enemies("wereWolf", this.ctx, `werewolf.png`, 12, 8, 6, 0, this.canvasDom.width, this.canvasDom.height, this.characterW, this.characterH, 511, 560, 8, 200, 50, 20, 2))
         this.GameOver = new Map(this.ctx, "gameOver.jpg", this.canvasDom.width, this.canvasDom.height)
     },
+    //dibuja los componentes del mapa
     drawAll() {
         this.map.draw();
         this.hero.draw();
@@ -189,6 +195,7 @@ const game = {
         })
         this.drawHStatus()
     },
+    //dibuja los componentes del mapa de batalla
     drawBattle() {
         this.battlaBackground.draw();
         this.foundenemy.drawB();
@@ -198,9 +205,11 @@ const game = {
         this.battle();
 
     },
+    //mueve a los bots
     moveAll() {
         this.enemies.forEach(elm => elm.verticalMove(this.framesCounter))
     },
+    //detecta las colisiones de los muros
     isCollision(newPosX, newPosY) {
         let posX = this.hero._posX + newPosX;
         let posY = this.hero._posY + newPosY;
@@ -214,6 +223,7 @@ const game = {
 
         );
     },
+    // devuelve a el bot que colisiona con el heroe 
     isCollisionEnemy() {
         this.foundenemy = this.enemies.find(
             (enemy, index) => {
@@ -223,37 +233,42 @@ const game = {
                     this.hero._posY + this.hero._heroH >= enemy._posY &&
                     this.hero._posX <= enemy._posX + enemy._enemyW &&
                     this.hero._posY <= enemy._posY + enemy._enemyH)
-                //console.log(enemy)
+
 
             })
 
 
     },
+
+    //musica de fondo cuando estas en el mapa principal
     playLoop() {
         this.walkingMusic.volume = 0.3
         this.walkingMusic.loop = true
         this.walkingMusic.play()
     },
-
+    //para la musica de fondo cuando estas en el mapa principal
     stopMusic() {
         this.walkingMusic.pause()
         this.walkingMusic.currentTime = 0
     },
+    //musica de fondo cuando estas en el mapa de batalla
     playLoopB() {
         this.attackMusic.volume = 0.3
         this.attackMusic.loop = true
         this.attackMusic.play()
     },
-
+    //para la musica de fondo cuando estas en el mapa principal
     stopMusicB() {
         this.attackMusic.pause()
         this.attackMusic.currentTime = 0
     },
+    //borra todo el mapa para para eliminar imagenes residuales
     clear() {
         this.ctx.clearRect(0, 0, this.canvasDom.width, this.canvasDom.height);
     },
+    //funcion que gestiona el sistema de batalla
     battle() {
-        this.battlaBackground = new Map(this.ctx, "fondobatalla.png", this.canvasDom.width, this.canvasDom.height)
+        this.battlaBackground = new Map(this.ctx, "fondobatalla.png", this.canvasDom.width, this.canvasDom.height) //cambio de mapa
         this.statusEnemy = Status;
         this.statusEnemy.init(this.ctx)
 
@@ -264,8 +279,6 @@ const game = {
             this.hero._posYB = this.hero._posYB0
             this.hero._posXB = this.hero._posXB0
             this.foundenemy._attackSpeed += this.foundenemy._attackSpeed;
-
-            console.log(this.foundenemy._attackSpeed)
 
             if (this.foundenemy._attackSpeed > 10) {
                 this.foundenemy._attackSpeed = this.foundenemy._attackSpeed0;
@@ -281,7 +294,6 @@ const game = {
             }
             this.hero._mana <= this.hero._maxMana ? this.hero._mana += this.hero._attackSpeed : null
 
-            console.log(this.hero._mana)
 
 
             this.setListeners()
