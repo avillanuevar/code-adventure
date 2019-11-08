@@ -28,8 +28,8 @@ class Hero {
         this._battleH = 400
         this._image.framesX = 12;
         this._image.framesY = 8;
-        this._framesIndexX = 6;
-        this._framesIndexY = 4;
+        this._framesIndexX = 3;
+        this._framesIndexY = 0;
         this._keys = keys;
         this._vel = 6
         this.setListeners();
@@ -54,9 +54,9 @@ class Hero {
     }
     drawB() {
 
-        let cutXS = 7 * Math.floor(this._image.width / this._image.framesX);
+        let cutXS = 4 * Math.floor(this._image.width / this._image.framesX);
         let cutXF = Math.floor(this._image.width / this._image.framesX);
-        let cutYS = 7 * Math.floor(this._image.height / this._image.framesY);
+        let cutYS = 3 * Math.floor(this._image.height / this._image.framesY);
         let cutYF = Math.floor(this._image.height / this._image.framesY);
         //console.log(cutXS, cutXF, cutYS, cutYF, this._heroW, this._heroH)
         this._ctx.drawImage(
@@ -74,37 +74,37 @@ class Hero {
             if (game.framesCounter % 1000) {
                 switch (e.keyCode) {
                     case this._keys.DOWN:
-                        this._framesIndexY = 4;
+                        this._framesIndexY = 0;
 
                         this._framesIndexX++;
 
-                        if (this._framesIndexX > 8) this._framesIndexX = 6;
+                        if (this._framesIndexX > 5) this._framesIndexX = 3;
                         if (this._posY < this._height - this._heroH && !game.isCollision(0, this._vel)) this.goDown();
                         console.log(this._posX, this._posY)
                         break;
 
                     case this._keys.LEFT:
-                        this._framesIndexY = 5;
+                        this._framesIndexY = 1;
                         this._framesIndexX++;
-                        if (this._framesIndexX > 8) this._framesIndexX = 6;
+                        if (this._framesIndexX > 5) this._framesIndexX = 3;
 
                         if (this._posX > 0 && !game.isCollision(this._vel * -1, 0)) this.goLeft();
                         console.log(this._posX, this._posY)
                         break;
 
                     case this._keys.RIGTH:
-                        this._framesIndexY = 6;
+                        this._framesIndexY = 2;
                         this._framesIndexX++;
-                        if (this._framesIndexX > 8) this._framesIndexX = 6;
+                        if (this._framesIndexX > 5) this._framesIndexX = 3;
                         if (this._posX < this._width - this._heroW && !game.isCollision(this._vel, 0)) this.goRigth();
                         console.log(this._posX, this._posY)
                         break;
 
                     case this._keys.UP:
-                        this._framesIndexY = 7;
+                        this._framesIndexY = 3;
                         this._framesIndexX++;
                         console.log(!game.isCollision(0, this._vel * -1))
-                        if (this._framesIndexX > 8) this._framesIndexX = 6;
+                        if (this._framesIndexX > 5) this._framesIndexX = 3;
                         if (this._posY > 0 && !game.isCollision(0, this._vel * -1)) this.goUp();
                         console.log(this._posX, this._posY)
                         break;
